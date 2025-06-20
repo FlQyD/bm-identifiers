@@ -29,11 +29,5 @@
     "host_permissions": [
         "*://api.battlemetrics.com/*",
         "*://api.steampowered.com/*"
-    ],
-    "permissions": [
-        "storage",
-        "tabs",
-        "scripting",
-        "activeTab"
     ]
 }

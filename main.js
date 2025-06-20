@@ -1,5 +1,7 @@
 console.log("EXTENSION: bm-identifiers loaded!")
 
+let lastUrl = "";
+
 //Extension should fire/refresh on page change
 window.addEventListener("load", () => main(window.location.href))
 navigation.addEventListener("navigate", (event) => {
@@ -9,6 +11,9 @@ navigation.addEventListener("navigate", (event) => {
 
 async function main(url) {
     const urlArray = url.split("/");
+
+    if (url === lastUrl) return;
+    lastUrl = url;
 
     if (urlArray[4] && urlArray[4] !== "players") return; //Not player page
     if (!urlArray[5]) return;
