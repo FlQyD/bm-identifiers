@@ -1,0 +1,39 @@
+{
+    "manifest_version": 3,
+    "name": "bm-identifiers",
+    "version": "1.0",
+    "description": "Extension shows extra information about certain identifiers on battlemetrics RCON.",
+    "author": "FlQyD",
+    "content_scripts": [
+        {
+            "matches": [
+                "https://www.battlemetrics.com/*"
+            ],
+            "run_at": "document_start",
+            "js": [
+                "./main.js"
+            ]
+        }
+    ],
+    "web_accessible_resources": [
+        {
+            "resources": [
+                "modules/setup.js"
+            ],
+            "matches": [
+                "*://www.battlemetrics.com/*",
+                "*://battlemetrics.com/*"
+            ]
+        }
+    ],
+    "host_permissions": [
+        "*://api.battlemetrics.com/*",
+        "*://api.steampowered.com/*"
+    ],
+    "permissions": [
+        "storage",
+        "tabs",
+        "scripting",
+        "activeTab"
+    ]
+}
