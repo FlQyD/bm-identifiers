@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "bm-identifiers",
-    "version": "1.0",
+    "version": "1.1",
     "description": "Extension shows extra information about certain identifiers on battlemetrics RCON.",
     "author": "FlQyD",
     "content_scripts": [
