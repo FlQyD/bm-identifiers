@@ -12,13 +12,18 @@
             "run_at": "document_start",
             "js": [
                 "./main.js"
+            ],
+            "css": [
+                "./main.css"
             ]
         }
     ],
     "web_accessible_resources": [
         {
             "resources": [
-                "modules/display.js"
+                "assets/settings.png",
+                "modules/display.js",
+                "modules/settings.js"
             ],
             "matches": [
                 "*://www.battlemetrics.com/*",

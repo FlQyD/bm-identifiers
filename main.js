@@ -20,11 +20,12 @@ async function main(url) {
     const authToken = getAuthToken();
     if (!authToken) return;
 
-    const identifiers = await getIdentifiers(bmId, authToken);    
+    const identifiers = await getIdentifiers(bmId, authToken);
+
+    const { displayIps, displayStreamerModeName } = await import(chrome.runtime.getURL('./modules/display.js'));
+    displayStreamerModeName(identifiers.steamId);
 
     if (!urlArray[6] || urlArray[6] !== "identifiers") return; //Not identifier page
-
-    const { displayIps } = await import(chrome.runtime.getURL('./modules/display.js'));
     displayIps(identifiers.ips);
 }
 
@@ -32,12 +33,12 @@ function getAuthToken() {
     const authElement = document.getElementById("oauthToken");
     if (!authElement) {
         console.error("Auth wasn't found.")
-        return;
+        return null;
     }
     const authToken = authElement.innerText;
     if (!authToken) {
         console.error("Auth Token is missing.")
-        return;
+        return null;
     }
     
     return authToken;
@@ -50,7 +51,6 @@ async function getIdentifiers(bmId, authToken) {
 
     return identifiers;
 }
-
 async function requestIdentifiers(bmId, authToken, count = 0) {
     if (count > 2) return {};
     try {
@@ -59,14 +59,12 @@ async function requestIdentifiers(bmId, authToken, count = 0) {
 
         const data = await resp.json();
         const returnData = {}
-        
+
         returnData.ips = data.included
             .filter(identifier => {                
                 if (identifier.type !== "identifier") return false;
-                if (!identifier.attributes) return false;
-                if (identifier.attributes.type !== "ip") return false;
-                if (!identifier.attributes.metadata) return false;
-                if (!identifier.attributes.metadata.connectionInfo) return false;
+                if (identifier.attributes?.type !== "ip") return false;
+                if (!identifier.attributes?.metadata?.connectionInfo) return false;
                 return true;
             })
             .map(identifier => {
@@ -84,9 +82,8 @@ async function requestIdentifiers(bmId, authToken, count = 0) {
 
             return true;
         })
-
+        
         returnData.steamId = steamId ? steamId.attributes.identifier : null;
-
         return returnData;
     } catch (error) {
         console.log(error);
