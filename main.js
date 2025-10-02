@@ -21,6 +21,8 @@ async function main(url) {
     if (!authToken) return;
 
     const identifiers = await getIdentifiers(bmId, authToken);
+    console.log(identifiers);
+    
 
     const { displayIps, displayStreamerModeName } = await import(chrome.runtime.getURL('./modules/display.js'));
     displayStreamerModeName(identifiers.steamId);
@@ -64,6 +66,7 @@ async function requestIdentifiers(bmId, authToken, count = 0) {
             .filter(identifier => {                
                 if (identifier.type !== "identifier") return false;
                 if (identifier.attributes?.type !== "ip") return false;
+                if (!identifier.attributes.identifier) return false;
                 if (!identifier.attributes?.metadata?.connectionInfo) return false;
                 return true;
             })
